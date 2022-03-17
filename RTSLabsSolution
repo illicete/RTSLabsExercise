@@ -5,6 +5,7 @@ public class RTSLabsSolution
 	public static void Main()
 	{
 
+		//testing stringRotation
 		string original = "MyString";
 		int rotationValue = 2;
 		
@@ -13,17 +14,17 @@ public class RTSLabsSolution
 		Console.WriteLine("Rotating {0} characters in the String '{1}' results in: '{2}'",rotationValue, original, result);
 
 		
+		//testing aboveBelow
 		List<int> collection = new List<int>{1, 5, 2, 1, 10};
 	 	Dictionary<string, int> response = aboveBelow(collection, 6);
-
 		
 		
-		Console.WriteLine("Above : {0} Below : {1}", response["Above"].ToString(), response["Below"].ToString());
+		Console.WriteLine("Above : {0} Below : {1}", response["above"].ToString(), response["below"].ToString());
 	
 	}
 	
 	
-	//note, under this design spec numbers equal to the comparator won't be included in either buckect		
+	//note, under this design spec numbers equal to the comparator won't be included in either bucket		
 	public static Dictionary<string, int> aboveBelow(List<int> collection, int comparator)
 	{
         	int above = 0;
@@ -41,15 +42,28 @@ public class RTSLabsSolution
 		
 		var comparedDictionary = new Dictionary<string, int>();		
 		
-		comparedDictionary.Add("Above",above);
-		comparedDictionary.Add("Below", below);
+		comparedDictionary.Add("above", above);
+		comparedDictionary.Add("below", below);
 		return comparedDictionary;
 	}
 
 	
 	public static string stringRotation(string original, int rotationValue)
 	{
-        var res = original.Substring(original.Length - rotationValue, rotationValue) + original.Substring(rotationValue, original.Length - rotationValue);
+			
+	
+		// added to handle the case where the rotationvalue is greater than the original strings length- 
+		// a full rotation is the equivilant of NO rotation, so we just take teh modulus instead
+		rotationValue = rotationValue % original.Length;	
+		
+		//added to handle negative rotations. Allows the user to rotate both ways!
+		if(rotationValue < 0)
+		rotationValue = rotationValue + original.Length;
+
+		Console.WriteLine(rotationValue);
+
+		
+        var res = original.Substring(original.Length - rotationValue, rotationValue) + original.Substring(0, original.Length - rotationValue);
         return res;
 
 	}
